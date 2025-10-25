@@ -27,7 +27,7 @@ jobs:
         run: npm ci
       
       - name: Build Project
-        run: npm run Build
+        run: npm run build
       
       - name: Deploy 
         run: npm run deploy -- --repo git@github.com:tizon15/lemoncode-07-cloud-lab1.git
