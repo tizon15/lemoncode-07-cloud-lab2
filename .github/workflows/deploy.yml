@@ -1,0 +1,33 @@
+name: Deploy
+
+on: 
+  push: 
+    branches:
+      - main
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      
+      - name: SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
+          sudo chmod 600 ~/.ssh/id_rsa
+      
+      - name: Git Config
+        run: |
+          git config --global user.email "test@testemail.com"
+          git config --global user.name "Test user"
+    
+      - name: Install NPM
+        run: npm ci
+      
+      - name: Build Project
+        run: npm run Build
+      
+      - name: Deploy 
+        run: npm run deploy -- --repo git@github.com:tizon15/lemoncode-07-cloud-lab1.git
